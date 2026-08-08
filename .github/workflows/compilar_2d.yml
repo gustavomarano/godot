@@ -5,7 +5,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - name: Clonar versión de Godot
+      - name: Clonar versión estable de Godot
         uses: actions/checkout@v4
         with:
           repository: godotengine/godot
@@ -24,4 +24,10 @@ jobs:
 
       - name: Compilar con SCons (Sin 3D ni Módulos Conflictivos)
         run: |
-          scons platform=windows target=template_release disable_3d=yes disable_advanced_gui=yes builtin_msdfgen=no module_msdfgen_enabled=no module_svg_enabled=no optimize=size
+          scons platform=windows target=template_release tools=no disable_3d=yes disable_advanced_gui=yes builtin_msdfgen=no module_msdfgen_enabled=no module_svg_enabled=no optimize=size
+
+      - name: Subir todos los binarios generados con éxito
+        uses: actions/upload-artifact@v4
+        with:
+          name: plantilla-windows-no3d
+          path: bin/godot* # Captura cualquier variante de nombre que genere SCons automáticamente
