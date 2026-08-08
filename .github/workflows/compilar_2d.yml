@@ -23,8 +23,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compilar con SCons (Sin 3D ni Módulos Conflictivos)
-        run: |
-          scons platform=windows target=template_release tools=no disable_3d=yes disable_advanced_gui=yes builtin_msdfgen=no module_msdfgen_enabled=no module_svg_enabled=no optimize=size
+        run: scons platform=windows target=template_release tools=no disable_3d=yes disable_advanced_gui=yes minizip=no module_jsonrpc_enabled=no optimize=size
 
       - name: Subir todos los binarios generados con éxito
         uses: actions/upload-artifact@v4
