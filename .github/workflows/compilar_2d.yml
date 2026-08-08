@@ -1,0 +1,27 @@
+name: Compilar Plantilla 2D Pura
+on: [workflow_dispatch] # Permite activar la compilación con un botón
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Clonar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python y SCons
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          
+      - name: Instalar SCons
+        run: pip install scons
+
+      - name: Compilar con SCons (Sin 3D)
+        run: |
+          scons platform=windows target=template_release disable_3d=yes disable_advanced_gui=yes
+
+      - name: Subir el archivo compilado
+        uses: actions/upload-artifact@v4
+        with:
+          name: plantilla-windows-no3d
+          path: bin/*.exe
